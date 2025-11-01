@@ -1,46 +1,66 @@
-# Getting Started with Create React App
+Frontend — React (CRA) + TypeScript + Tailwind
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Visão geral
+- App SPA que consome a API NestJS (localhost:3000 por padrão).
+- Autenticação com JWT: token salvo em localStorage e enviado via header Authorization.
+- Controle de acesso por cargo: páginas e itens de menu condicionados a admin/administrador.
+- Páginas: Login (/), Produtos (/produtos), Usuários (/usuarios — apenas admin).
 
-## Available Scripts
+Rodando o projeto
+1) Instale as dependências
+   - `npm install`
+2) Inicie em desenvolvimento
+   - `npm start`
+3) Pré‑requisitos
+   - API rodando em `http://localhost:5173` (ajuste em `src/api/api.ts` ou `.env`).
 
-In the project directory, you can run:
+Build
+- Gerar build de produção: `npm run build`
 
-### `npm start`
+Configuração da API
+- Arquivo: `src/api/api.ts`
+  - Base URL via env var `REACT_APP_API_URL` (ex.: `http://localhost:3000`).
+  - Padrão (fallback): `http://localhost:3000` se a env não estiver definida.
+  - O helper `setAuthToken(token)` adiciona/limpa o header `Authorization: Bearer <token>` em todas as requisições.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Ambiente (.env)
+- Crie um arquivo `.env` na raiz do frontend com:
+  - `REACT_APP_API_URL=http://localhost:3000`
+- Reinicie o servidor de dev após alterar `.env`.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Autenticação e sessão
+- Login (tela `/`): chama `POST /auth/login` e armazena `access_token` no localStorage (`token`).
+- Decodificação do JWT: o payload é lido para extrair `id`, `nome`, `cargo` (campo `cargo` define permissões).
+- Logout: limpa token e headers; redireciona para `/`.
 
-### `npm test`
+Rotas e proteção
+- `PrivateRoute`: permite acesso apenas quando há token.
+- `AdminRoute`: permite acesso apenas se `cargo` for `admin` ou `administrador`.
+- Mapeamento:
+  - `/` → Login
+  - `/produtos` → autenticado (usuários comuns e admin)
+  - `/usuarios` → apenas admin/administrador
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Páginas principais
+- Login (`src/pages/Login.tsx`)
+  - Formulário de usuário e senha; após sucesso navega para `/produtos`.
+- Produtos (`src/pages/Produtos.tsx`)
+  - Lista, cria, edita, exclui produtos do usuário autenticado.
+  - Modal `ProductForm` para criar/editar.
+- Usuários (`src/pages/Usuarios.tsx`)
+  - CRUD de usuários (apenas admin/administrador).
+  - Modal `UserForm` para criar/editar (senha opcional ao editar).
 
-### `npm run build`
+Navbar
+- Arquivo: `src/components/Navbar.tsx`
+- Mostra links para Produtos e (se admin/administrador) Usuários.
+- Exibe usuário logado e botão de sair.
+- É renderizada no topo das páginas Produtos e Usuários.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Estilos
+- Tailwind configurado em `tailwind.config.js` e `postcss.config.js`.
+- Container padrão nas páginas com `container mx-auto p-8` logo abaixo do Navbar.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Notas
+- A verificação de cargo aceita `admin` e `administrador` (case‑insensitive) no frontend.
+- Respostas de erro são exibidas de forma simples via alert/toast.
