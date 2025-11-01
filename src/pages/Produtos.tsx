@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../api/api";
+import Navbar from "../components/Navbar";
 import ProductForm from "../components/ProductForm";
 
 interface Produto {
@@ -37,7 +38,9 @@ export default function Produtos() {
   };
 
   return (
-    <div className="p-8">
+    <>
+      <Navbar />
+      <div className="container mx-auto p-8">
       <h1 className="text-2xl font-bold mb-4">Meus Produtos</h1>
 
       <button
@@ -102,6 +105,7 @@ export default function Produtos() {
           ))}
         </tbody>
       </table>
-    </div>
+      </div>
+    </>
   );
 }

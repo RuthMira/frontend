@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { api } from "../api/api";
 import { useAuth } from "../context/AuthContext";
 import UserForm from "../components/UserForm";
+import Navbar from "../components/Navbar";
 
 interface Usuario {
   id: number;
@@ -39,7 +40,9 @@ export default function Usuarios() {
   };
 
   return (
-    <div className="p-8">
+    <>
+      <Navbar />
+      <div className="container mx-auto p-8">
       <h1 className="text-2xl font-bold mb-4">Gerenciamento de Usuários</h1>
 
       <button
@@ -98,6 +101,7 @@ export default function Usuarios() {
           ))}
         </tbody>
       </table>
-    </div>
+      </div>
+    </>
   );
 }
