@@ -12,4 +12,3 @@ root.render(
   </React.StrictMode>
 );
 
-// Tailwind CSS carregado via ./index.css
