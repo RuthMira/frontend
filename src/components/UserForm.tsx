@@ -38,7 +38,7 @@ export default function UserForm({ usuario, onClose }: Props) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+    <div className="fixed inset-0 z-[9999] bg-black/40 backdrop-blur-[2px] flex items-center justify-center">
       <div className="bg-white p-6 rounded-xl shadow-lg w-96">
         <h2 className="text-lg font-bold mb-4">
           {usuario ? "Editar Usuário" : "Novo Usuário"}
@@ -78,14 +78,14 @@ export default function UserForm({ usuario, onClose }: Props) {
           <div className="flex justify-end gap-3">
             <button
               type="button"
-              className="bg-gray-300 px-4 py-2 rounded"
+              className="px-4 py-2 rounded border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
               onClick={onClose}
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="bg-blue-600 text-white px-4 py-2 rounded"
+              className="px-4 py-2 rounded bg-txai-red text-white hover:opacity-90"
             >
               Salvar
             </button>
@@ -95,3 +95,5 @@ export default function UserForm({ usuario, onClose }: Props) {
     </div>
   );
 }
+
+
