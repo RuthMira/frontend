@@ -13,24 +13,28 @@ interface Props {
 
 export default function ProductForm({ produto, onClose }: Props) {
   const [nome, setNome] = useState("");
-  const [valor, setValor] = useState<number>(0);
-  const [quantidade, setQuantidade] = useState<number>(1);
+  // Usar strings permite deixar o campo vazio (sem 0 forçado)
+  const [valor, setValor] = useState<string>("");
+  const [quantidade, setQuantidade] = useState<string>("");
 
   useEffect(() => {
     if (produto) {
       setNome(produto.nome);
-      setValor(produto.valor);
-      setQuantidade(produto.quantidade);
+      setValor(String(produto.valor));
+      setQuantidade(String(produto.quantidade));
     } else {
       setNome("");
-      setValor(0);
-      setQuantidade(1);
+      setValor("");
+      setQuantidade("");
     }
   }, [produto]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const payload = { nome, valor: Number(valor), quantidade: Number(quantidade) };
+    // Suporta vírgula como separador decimal para valor
+    const valorNumero = Number(String(valor).replace(",", "."));
+    const quantidadeNumero = Number(quantidade);
+    const payload = { nome, valor: valorNumero, quantidade: quantidadeNumero };
 
     if (produto) {
       // Backend expõe atualização via PUT (não PATCH)
@@ -62,18 +66,25 @@ export default function ProductForm({ produto, onClose }: Props) {
           <label className="block mb-2">Valor (R$):</label>
           <input
             type="number"
+            inputMode="decimal"
+            step="0.01"
+            min="0"
+            placeholder="0,00"
             className="w-full border p-2 mb-4 rounded"
             value={valor}
-            onChange={(e) => setValor(Number(e.target.value))}
+            onChange={(e) => setValor(e.target.value)}
             required
           />
 
           <label className="block mb-2">Quantidade:</label>
           <input
             type="number"
+            inputMode="numeric"
+            min="0"
+            placeholder="1"
             className="w-full border p-2 mb-4 rounded"
             value={quantidade}
-            onChange={(e) => setQuantidade(Number(e.target.value))}
+            onChange={(e) => setQuantidade(e.target.value)}
             required
           />
 
