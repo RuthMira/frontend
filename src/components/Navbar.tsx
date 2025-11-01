@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function Navbar() {
@@ -11,27 +11,27 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-blue-600 text-white px-6 py-3 flex justify-between items-center shadow-md">
-      <div className="flex gap-4 items-center">
-        <span className="font-semibold text-lg">Sistema Txai</span>
-        <Link
-          to="/produtos"
-          className="hover:bg-blue-700 px-3 py-1 rounded transition"
-        >
-          Produtos
-        </Link>
-        {(() => {
-          const role = String(user?.cargo || "").toLowerCase();
-          return role === "admin" || role === "administrador";
-        })() && (
-          <Link
-            to="/usuarios"
-            className="hover:bg-blue-700 px-3 py-1 rounded transition"
-          >
-            Usuários
-          </Link>
-        )}
-      </div>
+    <nav className="bg-white text-neutral-900 px-6 py-3 flex justify-between items-center shadow-md border-b border-gray-200">
+      <a href="/home" className="flex items-center gap-3">
+        <span className="inline-flex items-center justify-center bg-transparent rounded-md p-1 overflow-hidden">
+          <img
+            src="/logo.svg"
+            alt="Grupo Txai"
+            className="h-8 w-auto"
+            onError={(e) => {
+              const img = e.currentTarget as HTMLImageElement;
+              const src = img.getAttribute("src") || "";
+              // Tentativas: logo.svg -> logo.png -> logo.jpg -> txai-logo.svg -> txai-logo.png -> txai-logo.jpg
+              if (src.endsWith("/logo.svg")) img.src = "/logo.png";
+              else if (src.endsWith("/logo.png")) img.src = "/logo.jpg";
+              else if (src.endsWith("/logo.jpg")) img.src = "/txai-logo.svg";
+              else if (src.endsWith("/txai-logo.svg")) img.src = "/txai-logo.png";
+              else if (src.endsWith("/txai-logo.png")) img.src = "/txai-logo.jpg";
+              else img.style.display = "none"; // se nada existir, esconde
+            }}
+          />
+        </span>
+      </a>
 
       <div className="flex items-center gap-4">
         <span className="text-sm opacity-90">
@@ -39,7 +39,7 @@ export default function Navbar() {
         </span>
         <button
           onClick={handleLogout}
-          className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-sm"
+          className="bg-txai-red hover:opacity-90 px-3 py-1 rounded text-sm text-white"
         >
           Sair
         </button>
