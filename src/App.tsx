@@ -10,6 +10,14 @@ function PrivateRoute({ children }: { children: ReactElement }) {
   return token ? children : <Navigate to="/" />;
 }
 
+function AdminRoute({ children }: { children: ReactElement }) {
+  const { token, user } = useAuth();
+  if (!token) return <Navigate to="/" />;
+  const role = String(user?.cargo || "").toLowerCase();
+  const allowed = role === "admin" || role === "administrador";
+  return allowed ? children : <Navigate to="/produtos" />;
+}
+
 export default function App() {
   return (
     <AuthProvider>
@@ -27,9 +35,9 @@ export default function App() {
           <Route
             path="/usuarios"
             element={
-              <PrivateRoute>
+              <AdminRoute>
                 <Usuarios />
-              </PrivateRoute>
+              </AdminRoute>
             }
           />
         </Routes>

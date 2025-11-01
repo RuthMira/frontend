@@ -11,7 +11,7 @@ interface Usuario {
 
 export default function Usuarios() {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
-  const [editingUser, setEditingUser] = useState<Usuario | null>(null);
+  const [editingUser, setEditingUser] = useState<Usuario | undefined>(undefined);
   const [showForm, setShowForm] = useState(false);
   const { logout } = useAuth();
 
@@ -45,7 +45,7 @@ export default function Usuarios() {
       <button
         className="bg-green-600 text-white px-4 py-2 rounded mb-4"
         onClick={() => {
-          setEditingUser(null);
+          setEditingUser(undefined);
           setShowForm(true);
         }}
       >
