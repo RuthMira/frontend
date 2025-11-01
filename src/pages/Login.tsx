@@ -17,7 +17,7 @@ export default function Login() {
     setCarregando(true);
     try {
       await login(nome, senha);
-      navigate("/produtos");
+      navigate("/home");
     } catch (err) {
       setErro("Usuário ou senha inválidos");
     } finally {
@@ -26,11 +26,11 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex items-center justify-center px-4">
+    <div className="min-h-screen relative overflow-hidden bg-txai-white flex items-center justify-center px-4">
       {/* Decoração de fundo */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-32 -right-24 h-72 w-72 rounded-full bg-indigo-200/40 blur-3xl" />
-        <div className="absolute -bottom-32 -left-24 h-72 w-72 rounded-full bg-blue-200/40 blur-3xl" />
+        <div className="absolute -top-32 -right-24 h-72 w-72 rounded-full bg-txai-red/20 blur-3xl" />
+        <div className="absolute -bottom-32 -left-24 h-72 w-72 rounded-full bg-txai-red/10 blur-3xl" />
       </div>
 
       <div className="relative w-full max-w-md">
@@ -66,7 +66,7 @@ export default function Login() {
                   id="usuario"
                   type="text"
                   placeholder="Seu usuário"
-                  className="w-full rounded-xl border border-gray-200 bg-white/60 pl-11 pr-3 py-2.5 text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/30 transition"
+                  className="w-full rounded-xl border border-gray-200 bg-white/60 pl-11 pr-3 py-2.5 text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-txai-red focus:bg-white focus:outline-none focus:ring-2 focus:ring-txai-red/30 transition"
                   value={nome}
                   onChange={(e) => setNome(e.target.value)}
                   autoComplete="username"
@@ -93,7 +93,7 @@ export default function Login() {
                   id="senha"
                   type={mostrarSenha ? "text" : "password"}
                   placeholder="Sua senha"
-                  className="w-full rounded-xl border border-gray-200 bg-white/60 pl-11 pr-10 py-2.5 text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/30 transition"
+                  className="w-full rounded-xl border border-gray-200 bg-white/60 pl-11 pr-10 py-2.5 text-gray-900 placeholder:text-gray-400 shadow-sm focus:border-txai-red focus:bg-white focus:outline-none focus:ring-2 focus:ring-txai-red/30 transition"
                   value={senha}
                   onChange={(e) => setSenha(e.target.value)}
                   autoComplete="current-password"
@@ -129,7 +129,7 @@ export default function Login() {
               <label className="inline-flex items-center gap-2 text-sm text-gray-700 select-none">
                 <input
                   type="checkbox"
-                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  className="h-4 w-4 rounded border-gray-300 text-txai-red focus:ring-txai-red"
                 />
                 Lembrar-me
               </label>
@@ -139,7 +139,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={carregando}
-              className="group relative inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2.5 text-white shadow-lg shadow-blue-600/20 transition hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500/40 disabled:cursor-not-allowed disabled:opacity-70"
+              className="group relative inline-flex w-full items-center justify-center gap-2 rounded-xl bg-txai-red px-4 py-2.5 text-white shadow-lg transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-txai-red/40 disabled:cursor-not-allowed disabled:opacity-70"
             >
               {carregando ? (
                 <>
@@ -166,4 +166,3 @@ export default function Login() {
     </div>
   );
 }
-
