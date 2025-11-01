@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 import Login from "./pages/Login";
 import Produtos from "./pages/Produtos";
 import Usuarios from "./pages/Usuarios";
+import Home from "./pages/Home";
 
 function PrivateRoute({ children }: { children: ReactElement }) {
   const { token } = useAuth();
@@ -24,6 +25,14 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route
+            path="/home"
+            element={
+              <PrivateRoute>
+                <Home />
+              </PrivateRoute>
+            }
+          />
           <Route
             path="/produtos"
             element={
