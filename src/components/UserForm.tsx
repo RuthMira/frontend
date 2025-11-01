@@ -28,7 +28,8 @@ export default function UserForm({ usuario, onClose }: Props) {
     if (senha) payload.senha = senha;
 
     if (usuario) {
-      await api.patch(`/usuarios/${usuario.id}`, payload);
+      // Backend expõe atualização via PUT (não PATCH)
+      await api.put(`/usuarios/${usuario.id}`, payload);
     } else {
       await api.post("/usuarios", payload);
     }

@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { api, setAuthToken } from "../api/api";
+import { api, setAuthToken, setUnauthorizedHandler } from "../api/api";
 
 interface AuthContextProps {
   user: any;
@@ -43,6 +43,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(null);
       }
     }
+    // On 401 from API, perform a clean logout (optional UX convenience)
+    setUnauthorizedHandler(() => logout());
+    return () => setUnauthorizedHandler(null);
   }, [token]);
 
   return (

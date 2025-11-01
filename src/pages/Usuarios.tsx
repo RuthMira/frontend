@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { api } from "../api/api";
 import { useAuth } from "../context/AuthContext";
 import UserForm from "../components/UserForm";
@@ -16,7 +16,7 @@ export default function Usuarios() {
   const [showForm, setShowForm] = useState(false);
   const { logout } = useAuth();
 
-  const carregarUsuarios = async () => {
+  const carregarUsuarios = useCallback(async () => {
     try {
       const { data } = await api.get("/usuarios");
       setUsuarios(data);
@@ -26,11 +26,11 @@ export default function Usuarios() {
         logout();
       }
     }
-  };
+  }, [logout]);
 
   useEffect(() => {
     carregarUsuarios();
-  }, []);
+  }, [carregarUsuarios]);
 
   const handleDelete = async (id: number) => {
     if (window.confirm("Tem certeza que deseja excluir este usuário?")) {

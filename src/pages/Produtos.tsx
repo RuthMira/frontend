@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { api } from "../api/api";
 import Navbar from "../components/Navbar";
 import ProductForm from "../components/ProductForm";
@@ -16,7 +16,7 @@ export default function Produtos() {
   const [editing, setEditing] = useState<Produto | undefined>(undefined);
   const [showForm, setShowForm] = useState(false);
 
-  const carregarProdutos = async () => {
+  const carregarProdutos = useCallback(async () => {
     try {
       const { data } = await api.get("/produtos");
       setProdutos(data);
@@ -24,11 +24,11 @@ export default function Produtos() {
       console.error("Erro ao buscar produtos:", err);
       alert("Erro ao carregar produtos");
     }
-  };
+  }, []);
 
   useEffect(() => {
     carregarProdutos();
-  }, []);
+  }, [carregarProdutos]);
 
   const handleDelete = async (id: number) => {
     if (window.confirm("Deseja excluir este produto?")) {

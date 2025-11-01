@@ -33,7 +33,8 @@ export default function ProductForm({ produto, onClose }: Props) {
     const payload = { nome, valor: Number(valor), quantidade: Number(quantidade) };
 
     if (produto) {
-      await api.patch(`/produtos/${produto.id}`, payload);
+      // Backend expõe atualização via PUT (não PATCH)
+      await api.put(`/produtos/${produto.id}`, payload);
     } else {
       await api.post("/produtos", payload);
     }

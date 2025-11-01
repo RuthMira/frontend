@@ -12,21 +12,26 @@ Rodando o projeto
 2) Inicie em desenvolvimento
    - `npm start`
 3) Pré‑requisitos
-   - API rodando em `http://localhost:5173` (ajuste em `src/api/api.ts` ou `.env`).
+   - API rodando em `http://127.0.0.1:3000` (recomendado) ou `http://localhost:3000`.
+   - Ajuste a URL em `src/api/api.ts` via `.env` (veja abaixo).
 
 Build
 - Gerar build de produção: `npm run build`
 
 Configuração da API
 - Arquivo: `src/api/api.ts`
-  - Base URL via env var `REACT_APP_API_URL` (ex.: `http://localhost:3000`).
-  - Padrão (fallback): `http://localhost:3000` se a env não estiver definida.
+  - Base URL via env var `REACT_APP_API_URL` (ex.: `http://127.0.0.1:3000`).
+  - Padrão (fallback): `http://127.0.0.1:3000` se a env não estiver definida.
   - O helper `setAuthToken(token)` adiciona/limpa o header `Authorization: Bearer <token>` em todas as requisições.
 
 Ambiente (.env)
 - Crie um arquivo `.env` na raiz do frontend com:
-  - `REACT_APP_API_URL=http://localhost:3000`
+  - `REACT_APP_API_URL=http://127.0.0.1:3000`
 - Reinicie o servidor de dev após alterar `.env`.
+
+CORS no backend (NestJS)
+- Prefira `127.0.0.1` em vez de `localhost` para evitar problemas de resolução/DNS no navegador.
+- No console do navegador, o front loga a base usada: `[API] baseURL = ...`.
 
 Autenticação e sessão
 - Login (tela `/`): chama `POST /auth/login` e armazena `access_token` no localStorage (`token`).
