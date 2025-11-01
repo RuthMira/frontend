@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { api, setAuthToken } from "../api/api";
 
 interface AuthContextProps {
@@ -31,6 +31,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem("token");
     setAuthToken(null);
   };
+
+  useEffect(() => {
+    setAuthToken(token);
+    if (token) {
+      try {
+        const base64Payload = token.split(".")[1];
+        const decoded = JSON.parse(atob(base64Payload));
+        setUser({ id: decoded.sub, nome: decoded.nome, cargo: decoded.cargo });
+      } catch (e) {
+        setUser(null);
+      }
+    }
+  }, [token]);
 
   return (
     <AuthContext.Provider value={{ user, token, login, logout }}>

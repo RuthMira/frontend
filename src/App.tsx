@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import Login from "./pages/Login";
-// import Produtos from "./pages/Produtos";
-// import Usuarios from "./pages/Usuarios";
+import Produtos from "./pages/Produtos";
+import Usuarios from "./pages/Usuarios";
 
 function PrivateRoute({ children }: { children: JSX.Element }) {
   const { token } = useAuth();
